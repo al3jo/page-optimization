@@ -23,13 +23,12 @@
   "devDependencies": {
     "jshint": "2.6.3",
     "minifier": "0.6.2",
-    "uglify-js": "2.4.17",
     "csslint": "0.10.0"
   },
   "scripts": {
-    "clean": "rm -f js/*.min.js css/*.min.css",
-    "lint": "jshint js/*.js",
-    "uglify": "uglifyjs js/*.js -cm > js/perfmatters.min.js ; minify css",
-    "preuglify": "npm run clean && npm run lint"
+    "clean": "rm -rf css/*.min.* js/*.min.* views/css/*.min.* views/js/*.min.*",
+    "lint": "jshint js/*.js ; jshint views/js",
+    "minify": "minify --no-comments js ; minify --no-comments views/js ; minify --no-comments css ; minify --no-comments views/css",
+    "preminify": "npm run clean"
   }
 }

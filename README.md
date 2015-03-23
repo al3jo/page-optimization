@@ -32,7 +32,7 @@ Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
 
 ####Part 2: Optimize Frames per Second in pizza.html
 
-To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js. 
+To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js.
 
 You might find the FPS Counter/HUD Display useful in Chrome developer tools described here: [Chrome Dev Tools tips-and-tricks](https://developer.chrome.com/devtools/docs/tips-and-tricks).
 
@@ -71,3 +71,60 @@ Feeling uninspired by the portfolio? Here's a list of cool portfolios I found af
 * <a href="http://nicoledominguez.com/portfolio/">http://nicoledominguez.com/portfolio/</a>
 * <a href="http://www.roxannecook.com/">http://www.roxannecook.com/</a>
 * <a href="http://www.84colors.com/portfolio.html">http://www.84colors.com/portfolio.html</a>
+
+## My Solution
+
+Here's a description of the things I changed in order to get this solution
+
+### CSS Optimization
+
+CSS files where minified and parts of them inlined in the main HTML file in order to make rendering faster. Here's what was done to each:
+
+* css/print.css: minified into css/print.min.css (from 741B -> 382B)
+* css/style.css: parts of this file are inlined in index.html. The rest was minified in css/style.min.css (from 1.5kb -> 273B)
+
+Each file included is the minified version, named <original>.min.css
+
+### Image Optimization
+
+All images were optimized for web. Here's what was done for each them:
+
+* img/2048.png: From ~64Kb -> 17Kb. Optimizations with compression for PNG format.
+* img/cam_be_like.jpg: ~262Kb -> 34Kb. Optimizations with compression for JPG format.
+* img/mobilewebdev.jpg: 186Kb -> 23Kb. Optimizations with compression for JPG format.
+* img/profilepic.jpg: 14Kb -> 1.3Kb. Optimizations with compression for JPG format.
+* views/images/pizzeria.jpg: 2.3Mb -> 24Kb. Optimization with compression for JPG format.
+* views/images/pizzeria-small.jpg: This image was created. Is used in the homepage with the required size, instead of the original image (which has larger than needed)
+* views/images/pizza.jpg:
+
+### JavaScript Optimization
+
+JavaScript files were linted, minified and mangled. Each file included is the minified version, named <original>.min.js. Here's what was done for each of them:
+
+* js/perfmatters.js: Linted, minified and mangled. From 513B -> 261B. Also, this script is loaded async inside index.html
+* js/style.js: This new file was created. It loads the styles that are not needed for rendering the page.
+* views/js/main.js:
+
+### HTML Optimization
+
+HTML files were optimized by inlining some CSS, adding async to JS files, and loading other styles async too. Also, the img-responsive class was added to the images in order to make the site mobile friendly.
+
+## How to run
+
+NodeJS was added. First start by installing dependencied by running:
+
+  npm install
+
+Then you can generate the minified files by running:
+
+  npm run minify
+
+Finally, you can start serving the files by running:
+
+  node app.js
+
+After this you can just go to http://localhost:8080 and you will have access to the site. ngrok is also included in case you need to analyze this site from the web. After running node, you can just run:
+
+  ngrok
+
+And use the provided url from your browser.
