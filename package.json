@@ -1,0 +1,35 @@
+{
+  "name": "page-optimization",
+  "version": "0.0.1",
+  "description": "A test on CRP optimization",
+  "main": "Gruntfile.js",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/al3jo/page-optimization.git"
+  },
+  "author": "Alejandro Castro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/al3jo/page-optimization/issues"
+  },
+  "homepage": "https://github.com/al3jo/page-optimization",
+  "dependencies": {
+    "express": "4.12.3",
+    "compression": "1.4.3"
+  },
+  "devDependencies": {
+    "jshint": "2.6.3",
+    "minifier": "0.6.2",
+    "uglify-js": "2.4.17",
+    "csslint": "0.10.0"
+  },
+  "scripts": {
+    "clean": "rm -f js/*.min.js css/*.min.css",
+    "lint": "jshint js/*.js",
+    "uglify": "uglifyjs js/*.js -cm > js/perfmatters.min.js ; minify css",
+    "preuglify": "npm run clean && npm run lint"
+  }
+}
