@@ -26,6 +26,7 @@
     "csslint": "0.10.0"
   },
   "scripts": {
+    "start": "node app.js",
     "clean": "rm -rf css/*.min.* js/*.min.* views/css/*.min.* views/js/*.min.*",
     "lint": "jshint js/*.js ; jshint views/js",
     "minify": "minify --no-comments js ; minify --no-comments views/js ; minify --no-comments css ; minify --no-comments views/css",

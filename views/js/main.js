@@ -498,13 +498,30 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 // Moves the sliding background pizzas based on scroll position
+
+// This variable will cache the pizzas on the screen. There's a fixed number of pizzas
+// and the number is small, so it's better to just keep then here instead of querying
+// the DOM every single scroll.
+var items = [];
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
+  // Here it's where the caching on pizzas happen. This line should only be execute once,
+  // so just one DOM query.
+  if (items.length == 0) {
+    items = document.querySelectorAll('.mover');
+  }
+
+  // This is another cache for the rotation values of each pizza. The idea is to compute them
+  // just once, to decrease the scripting time
+  var cache = [0, 0, 0, 0, 0];
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+    if (cache[i%5] == 0) {
+      // cache the value if it hasn't been stored already. At most 5 calculations now
+      cache[i%5] = Math.sin((document.body.scrollTop / 1250) + (i % 5))
+    }
+    var phase = cache[(i % 5)]; // use the already computed value
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
@@ -525,7 +542,9 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+
+  // actually in a huge resolutions, 30 is more than enough...
+  for (var i = 0; i < 30; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
