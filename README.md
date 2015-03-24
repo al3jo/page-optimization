@@ -103,7 +103,7 @@ JavaScript files were linted, minified and mangled. Each file included is the mi
 
 * js/perfmatters.js: Linted, minified and mangled. From 513B -> 261B. Also, this script is loaded async inside index.html
 * js/style.js: This new file was created. It loads the styles that are not needed for rendering the page.
-* views/js/main.js: Three changes in this file: a) Instead of creating 200 pizzas, only 30 are created now. Why? on a large display (1920x1080) only 30 pizzas are displayed at the same time, so I think that should be enought for most displays; b) also, the query for .mover elements is only made once, not for every event trigered. This was accomplished with a global variable that works as a cache. Having global variables may not be the best thing, but here it pays by increasing a lot the performance; and c) Finally, the values of the rotation of each pizza are cached too in each invocation of the function. This will reduce the amount of calculations by over 80%, which will be really noticeable in the performace and FPS of the page.
+* views/js/main.js: Some changes in this file to improve FPS: a) Instead of creating 200 pizzas, only 30 are created now. Why? on a large display (1920x1080) only 30 pizzas are displayed at the same time, so I think that should be enought for most displays; b) also, the query for .mover elements is only made once, not for every event trigered. This was accomplished with a global variable that works as a cache. Having global variables may not be the best thing, but here it pays by increasing a lot the performance; and c) Finally, the values of the rotation of each pizza are cached too in each invocation of the function. This will reduce the amount of calculations by over 80%, which will be really noticeable in the performance and FPS of the page; d) A refactoring was performed on function resizePizzas(): the computations of sizes are the same for all images, so they were removed from the for loop and only done once before running the loop.
 
 ### HTML Optimization
 
@@ -111,20 +111,28 @@ HTML files were optimized by inlining some CSS, adding async to JS files, and lo
 
 ## How to run
 
-NodeJS was added. First start by installing dependencied by running:
+NodeJS was added. First start by installing dependencies by running:
 
-  npm install
+```bash
+  $> npm install
+```
 
 Then you can generate the minified files by running:
 
-  npm run minify
+```bash
+  $> npm run minify
+```
 
 Finally, you can start serving the files by running:
 
-  npm start
+```bash
+  $> npm start
+```
 
 After this you can just go to http://localhost:8080 and you will have access to the site. ngrok is also included in case you need to analyze this site from the web. After running node, you can just run:
 
-  ngrok
+```bash
+  $> ngrok
+```
 
 And use the provided url from your browser.
